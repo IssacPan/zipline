@@ -236,7 +236,17 @@ class Event(namedtuple('Event', ['rule', 'callback'])):
 
 
 class EventRule(six.with_metaclass(ABCMeta)):
-    cal = None  # A calendar instance is set when scheduling a function.
+    # Instances of EventRule are assigned a calendar instance when scheduling
+    # a function.
+    _cal = None
+
+    @property
+    def cal(self):
+        return self._cal
+
+    @cal.setter
+    def cal(self, value):
+        self._cal = value
 
     @abstractmethod
     def should_trigger(self, dt):
